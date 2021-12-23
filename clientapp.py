@@ -1,4 +1,12 @@
 import mysql.connector
+# change to marmoset04.shoshin.uwaterloo.ca if running on marmoset
+hosturl_ = 'localhost'
+# change to correct username
+user_="root"
+# change to correct password
+password_="Password123!"
+# change to db356_<userid> if running on marmoset, or create one called "internet_traffic"
+database_="internet_traffic"
 
 mydb = None
 mycursor = None
@@ -31,10 +39,10 @@ def handle_dba(): # : boolean
 def make_connection():
     global mydb, mycursor
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Password123!",
-        database="internet_traffic"
+        host=hosturl_,
+        user=user_,
+        password=password_,
+        database=database_
     )
     mycursor = mydb.cursor()
 

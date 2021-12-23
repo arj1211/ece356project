@@ -1,3 +1,30 @@
+-- SET GLOBAL local_infile=1; -- enable if running locally
+SET GLOBAL innodb_buffer_pool_size=402653184;
+
+alter table backwardstats drop foreign key backwardstats_ibfk_1;
+alter table directionalflagcounts drop foreign key directionalflagcounts_ibfk_1;
+alter table flow drop foreign key flow_ibfk_1;
+alter table flow drop foreign key flow_ibfk_2;
+alter table flow drop foreign key flow_ibfk_3;
+alter table flow drop foreign key flow_ibfk_4;
+alter table forwardstats drop foreign key forwardstats_ibfk_1;
+alter table totalflagcounts drop foreign key totalflagcounts_ibfk_1;
+alter table involves drop foreign key involves_ibfk_1;
+alter table involves drop foreign key involves_ibfk_2;
+
+DROP TABLE IF EXISTS Host;
+DROP TABLE IF EXISTS Involves;
+DROP TABLE IF EXISTS WebService;
+DROP TABLE IF EXISTS Protocol;
+DROP TABLE IF EXISTS FlowStats;
+DROP TABLE IF EXISTS Flow;
+DROP TABLE IF EXISTS DirectionalFlagCounts;
+DROP TABLE IF EXISTS TotalFlagCounts;
+DROP TABLE IF EXISTS ForwardStats;
+DROP TABLE IF EXISTS BackwardStats;
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 create table Host (
     hostID int not null auto_increment, 
     IPAddress varchar(16) not null, 
@@ -158,6 +185,10 @@ create table BackwardStats (
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+SET GLOBAL local_infile=1;
+
+SET GLOBAL innodb_buffer_pool_size=402653184;
+
 delete from Host where 1=1;
 ALTER TABLE Host ADD UNIQUE unique_index(IPAddress, portNumber);
 ALTER TABLE Host AUTO_INCREMENT=1;
@@ -191,12 +222,12 @@ ALTER TABLE BackwardStats AUTO_INCREMENT=1;
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LOAD DATA INFILE
-'/var/lib/mysql-files/21-Network-Traffic/Dataset-Unicauca-Version2-87Atts.csv'
+LOAD DATA LOCAL INFILE
+"./data/Dataset-Unicauca-Version2-87Atts.csv"
 ignore into table Host 
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-IGNORE 3077290 LINES (
+IGNORE 3576297 LINES (
     @dummy,
     IPAddress,
     portNumber,
@@ -288,12 +319,12 @@ IGNORE 3077290 LINES (
     @dummy
 );
 
-LOAD DATA INFILE
-'/var/lib/mysql-files/21-Network-Traffic/Dataset-Unicauca-Version2-87Atts.csv'
+LOAD DATA LOCAL INFILE
+"./data/Dataset-Unicauca-Version2-87Atts.csv"
 ignore into table Host 
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-IGNORE 3077290 LINES (
+IGNORE 3576297 LINES (
     @dummy,
     @dummy,
     @dummy,
@@ -387,12 +418,12 @@ IGNORE 3077290 LINES (
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LOAD DATA INFILE
-'/var/lib/mysql-files/21-Network-Traffic/Dataset-Unicauca-Version2-87Atts.csv'
+LOAD DATA LOCAL INFILE
+"./data/Dataset-Unicauca-Version2-87Atts.csv"
 ignore into table Involves 
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-IGNORE 3077290 LINES (
+IGNORE 3576297 LINES (
     @dummy,
     @S_IP,
     @S_Port,
@@ -489,12 +520,12 @@ set
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LOAD DATA INFILE
-'/var/lib/mysql-files/21-Network-Traffic/Dataset-Unicauca-Version2-87Atts.csv'
+LOAD DATA LOCAL INFILE
+"./data/Dataset-Unicauca-Version2-87Atts.csv"
 ignore into table WebService 
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-IGNORE 3077290 LINES (
+IGNORE 3576297 LINES (
     @dummy,
     @dummy,
     @dummy,
@@ -586,12 +617,12 @@ IGNORE 3077290 LINES (
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LOAD DATA INFILE
-'/var/lib/mysql-files/21-Network-Traffic/Dataset-Unicauca-Version2-87Atts.csv'
+LOAD DATA LOCAL INFILE
+"./data/Dataset-Unicauca-Version2-87Atts.csv"
 ignore into table Protocol 
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-IGNORE 3077290 LINES (
+IGNORE 3576297 LINES (
     @dummy,
     @dummy,
     @dummy,
@@ -684,12 +715,12 @@ set protocolName = (select 'TCP');
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LOAD DATA INFILE
-'/var/lib/mysql-files/21-Network-Traffic/Dataset-Unicauca-Version2-87Atts.csv'
+LOAD DATA LOCAL INFILE
+"./data/Dataset-Unicauca-Version2-87Atts.csv"
 ignore into table FlowStats 
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-IGNORE 3077290 LINES (
+IGNORE 3576297 LINES (
     @dummy,
     @dummy,
     @dummy,
@@ -778,17 +809,16 @@ IGNORE 3077290 LINES (
     @dummy,
     @dummy
 )
-set timestamp = STR_TO_DATE(@TIMEVAR_timestamp, "%d/%m/%Y%T")
-;
+set timestamp = STR_TO_DATE(@TIMEVAR_timestamp, "%d/%m/%Y%T");
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LOAD DATA INFILE
-'/var/lib/mysql-files/21-Network-Traffic/Dataset-Unicauca-Version2-87Atts.csv'
+LOAD DATA LOCAL INFILE
+"./data/Dataset-Unicauca-Version2-87Atts.csv"
 ignore into table Flow 
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-IGNORE 3077290 LINES (
+IGNORE 3576297 LINES (
     @dummy,
     @S_IP,
     @S_Port,
@@ -896,12 +926,12 @@ set
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LOAD DATA INFILE
-'/var/lib/mysql-files/21-Network-Traffic/Dataset-Unicauca-Version2-87Atts.csv'
+LOAD DATA LOCAL INFILE
+"./data/Dataset-Unicauca-Version2-87Atts.csv"
 ignore into table DirectionalFlagCounts 
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-IGNORE 3077290 LINES (
+IGNORE 3576297 LINES (
     @dummy,
     @dummy,
     @dummy,
@@ -993,12 +1023,12 @@ IGNORE 3077290 LINES (
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LOAD DATA INFILE
-'/var/lib/mysql-files/21-Network-Traffic/Dataset-Unicauca-Version2-87Atts.csv'
+LOAD DATA LOCAL INFILE
+"./data/Dataset-Unicauca-Version2-87Atts.csv"
 ignore into table TotalFlagCounts 
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-IGNORE 3077290 LINES (
+IGNORE 3576297 LINES (
     @dummy,
     @dummy,
     @dummy,
@@ -1090,12 +1120,12 @@ IGNORE 3077290 LINES (
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LOAD DATA INFILE
-'/var/lib/mysql-files/21-Network-Traffic/Dataset-Unicauca-Version2-87Atts.csv'
+LOAD DATA LOCAL INFILE
+"./data/Dataset-Unicauca-Version2-87Atts.csv"
 ignore into table ForwardStats 
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-IGNORE 3077290 LINES (
+IGNORE 3576297 LINES (
     @dummy,
     @dummy,
     @dummy,
@@ -1187,12 +1217,12 @@ IGNORE 3077290 LINES (
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-LOAD DATA INFILE
-'/var/lib/mysql-files/21-Network-Traffic/Dataset-Unicauca-Version2-87Atts.csv'
+LOAD DATA LOCAL INFILE
+"./data/Dataset-Unicauca-Version2-87Atts.csv"
 ignore into table BackwardStats 
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-IGNORE 3077290 LINES (
+IGNORE 3576297 LINES (
     @dummy,
     @dummy,
     @dummy,
